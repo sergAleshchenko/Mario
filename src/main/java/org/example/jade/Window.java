@@ -3,8 +3,12 @@ package org.example.jade;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWErrorCallback;
+import org.lwjgl.opengl.GL;
 
 import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.glClear;
+import static org.lwjgl.opengl.GL11.glClearColor;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 /**
@@ -25,15 +29,11 @@ public class Window {
     }
 
 
-    public static Window ge() {
+    public static Window get() {
         if (Window.window == null) {
             Window.window = new Window();
         }
         return Window.window;
-    }
-
-    public static Window get() {
-        return null;
     }
 
     public void run() {
@@ -71,9 +71,23 @@ public class Window {
         glfwMakeContextCurrent(glfwWindow);
         // Enable v-sync
         glfwSwapInterval(1);
+
+        // Make the window visible
+        glfwShowWindow(glfwWindow);
+
+        GL.createCapabilities();
 }
 
     private void loop() {
+        while (!glfwWindowShouldClose(glfwWindow)) {
+            // Poll events
 
+            glfwPollEvents();
+
+            glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+            glClear(GL_COLOR_BUFFER_BIT);
+
+            glfwSwapBuffers(glfwWindow);
+        }
     }
 }
