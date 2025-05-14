@@ -1,10 +1,11 @@
 package org.example.jade;
 
+import org.example.util.Time;
 import org.lwjgl.Version;
-import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
 
+import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.glClear;
@@ -21,11 +22,18 @@ public class Window {
     private static Window window;
     private long glfwWindow;
 
+    private float r, g, b, a;
+    private boolean fadeToBlack = false;
+
 
     private Window() {
         this.width = 1920;
         this.height = 1080;
         this.title = "Mario";
+        this.r = 1;
+        this.g = 1;
+        this.b = 1;
+        this.a = 1;
     }
 
 
@@ -41,6 +49,14 @@ public class Window {
 
         init();
         loop();
+
+        // Free the memory
+        glfwFreeCallbacks(glfwWindow);
+        glfwDestroyWindow(glfwWindow);
+
+        // Terminate GLFW and the free the error callback
+        glfwTerminate();
+        glfwSetErrorCallback(null).free();
     }
 
 
@@ -67,6 +83,11 @@ public class Window {
             throw new IllegalStateException("Failed to create the GLFW window.");
         }
 
+        glfwSetCursorPosCallback(glfwWindow, MouseListener::mousePosCallback);
+        glfwSetMouseButtonCallback(glfwWindow, MouseListener::mouseButtonCallback);
+        glfwSetScrollCallback(glfwWindow, MouseListener::mouseScrollCallback);
+        glfwSetKeyCallback(glfwWindow, KeyListener::keyCallback);
+
         // Make the OpenGL context current
         glfwMakeContextCurrent(glfwWindow);
         // Enable v-sync
@@ -79,15 +100,32 @@ public class Window {
 }
 
     private void loop() {
+        float beginTime = Time.getTime();
+        float endTime  = Time.getTime();
+
         while (!glfwWindowShouldClose(glfwWindow)) {
             // Poll events
 
             glfwPollEvents();
 
-            glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+            glClearColor(r, g, b, a);
             glClear(GL_COLOR_BUFFER_BIT);
 
+            if(fadeToBlack) {
+                r = Math.max(r - 0.01f, 0);
+                g = Math.max(r - 0.01f, 0);
+                b = Math.max(r - 0.01f, 0);
+            }
+
+            if (KeyListener.isKeyPressed(GLFW_KEY_SPACE)) {
+                fadeToBlack = true;
+            }
+
             glfwSwapBuffers(glfwWindow);
+
+            endTime = Time.getTime();
+            float dt = endTime - beginTime;
+            beginTime = endTime;
         }
     }
 }
