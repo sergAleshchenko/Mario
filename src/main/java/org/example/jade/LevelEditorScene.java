@@ -158,6 +158,23 @@ public class LevelEditorScene extends Scene {
 
   @Override
   public void update(float dt) {
+    // Bind shader program
+    glUseProgram(shaderProgram);
+    // Bind the VAO that we're using
+    glBindVertexArray(vaoID);
 
+    // Enable the vertex attribute pointers
+    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
+
+    glDrawElements(GL_TRIANGLES, elementArray.length, GL_UNSIGNED_INT, 0);
+
+    // Unbind everything
+    glDisableVertexAttribArray(0);
+    glDisableVertexAttribArray(1);
+
+    glBindVertexArray(0);
+
+    glUseProgram(0);
   }
 }
