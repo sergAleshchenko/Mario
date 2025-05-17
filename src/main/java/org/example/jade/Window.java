@@ -16,17 +16,16 @@ import static org.lwjgl.system.MemoryUtil.NULL;
  * @author Sergei Aleshchenko
  */
 public class Window {
-
   private int width, height;
   private String title;
   private long glfwWindow;
-
-  public float r, g, b, a;
   private boolean fadeToBlack = false;
 
   private static Window window = null;
   private static int currentSceneIndex = -1;
   private static Scene currentScene = null;
+
+  public float r, g, b, a;
 
   private Window() {
     this.width = 1920;
@@ -54,7 +53,6 @@ public class Window {
     }
   }
 
-
   public static Window get() {
     if (Window.window == null) {
       Window.window = new Window();
@@ -81,7 +79,6 @@ public class Window {
   public void init() {
     // Setup an error callback
     GLFWErrorCallback.createPrint(System.err).set();
-
 
     // Initialize GLFW
     if(!glfwInit() ) {

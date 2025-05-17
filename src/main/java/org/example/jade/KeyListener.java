@@ -7,12 +7,10 @@ import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
  * @author Sergei Aleshchenko
  */
 public class KeyListener {
-
   private static KeyListener instance;
   private boolean keyPressed[] = new boolean[350];
 
   private KeyListener() {
-
   }
 
   public static KeyListener get() {

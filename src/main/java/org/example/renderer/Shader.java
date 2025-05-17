@@ -70,10 +70,7 @@ public class Shader {
     }
   }
 
-  public void compile() {
-    // ============================================
-    // Compile and link shaders
-    // ============================================
+  public void compileShaders() {
     int vertexID, fragmentID;
     // First load and compile the vertex shader
     vertexID = glCreateShader(GL_VERTEX_SHADER);
@@ -107,10 +104,10 @@ public class Shader {
       assert false : "";
     }
 
-    link(vertexID, fragmentID);
+    linkShaders(vertexID, fragmentID);
   }
 
-  public void link(int vertexID, int fragmentID) {
+  public void linkShaders(int vertexID, int fragmentID) {
     // Link shaders and check for errors
     shaderProgramID = glCreateProgram();
     glAttachShader(shaderProgramID, vertexID);
@@ -127,12 +124,12 @@ public class Shader {
     }
   }
 
-  public void use() {
+  public void useShaderProgram() {
     // Bind shader program
     glUseProgram(shaderProgramID);
   }
 
-  public void detach() {
+  public void detachShaderProgram() {
     glUseProgram(0);
   }
 }

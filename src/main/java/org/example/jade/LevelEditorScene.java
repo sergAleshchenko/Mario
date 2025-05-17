@@ -2,11 +2,8 @@ package org.example.jade;
 
 import org.example.renderer.Shader;
 import org.lwjgl.BufferUtils;
-
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
-
-import static org.lwjgl.opengl.GL11.GL_FALSE;
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.*;
 
@@ -24,7 +21,6 @@ public class LevelEditorScene extends Scene {
           "    fColor = aColor;\n" +
           "    gl_Position = vec4(aPos, 1.0);\n" +
           "}";
-
 
   private String fragmentShaderSrc = "#version 330 core\n" +
           "\n" +
@@ -48,11 +44,6 @@ public class LevelEditorScene extends Scene {
 
   // IMPORTANT: Must be in counter-clockwise order
   private int[] elementArray = {
-          /*
-                x    x
-
-                x    x
-           */
           2, 1, 0, // Top right triangle
           0, 1, 3 // Bottom left triangle
   };
@@ -67,7 +58,8 @@ public class LevelEditorScene extends Scene {
   @Override
   public void init() {
     defaultShader = new Shader("assets/shaders/default.glsl");
-    defaultShader.compile();
+    defaultShader.compileShaders();
+
     // ===========================================================
     // Generate VAO, VBO, and EBO buffer objects, and send to GPU
     // ===========================================================
@@ -104,13 +96,11 @@ public class LevelEditorScene extends Scene {
     glVertexAttribPointer(1, colorSize, GL_FLOAT, false,
             vertexSizeBytes, positionsSize * floatSizeBytes);
     glEnableVertexAttribArray(1);
-
-
   }
 
   @Override
   public void update(float dt) {
-    defaultShader.use();
+    defaultShader.useShaderProgram();
     // Bind the VAO that we're using
     glBindVertexArray(vaoID);
 
@@ -126,6 +116,6 @@ public class LevelEditorScene extends Scene {
 
     glBindVertexArray(0);
 
-    defaultShader.detach();
+    defaultShader.detachShaderProgram();
   }
 }
