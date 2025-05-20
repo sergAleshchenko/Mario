@@ -1,5 +1,7 @@
 package org.example.jade;
 
+import org.example.components.FontRenderer;
+import org.example.components.SpriteRenderer;
 import org.example.renderer.Shader;
 import org.example.renderer.Texture;
 import org.example.util.Time;
@@ -7,6 +9,7 @@ import org.joml.Vector2f;
 import org.lwjgl.BufferUtils;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.*;
 
@@ -19,10 +22,10 @@ public class LevelEditorScene extends Scene {
 
   private float[] vertexArray = {
            // position                 // color                       // UV coordinates
-           UHD_RATIO*300f,      100f,    0.0f,      1.0f, 0.0f, 0.0f, 1.0f,    1, 1, // Bottom right - 0
-            UHD_RATIO*100f,                 300f,   0.0f,      0.0f, 1.0f, 0.0f, 1.0f,    0, 0, // Top left     - 1
-           UHD_RATIO*300f,     300f,   0.0f,      0.0f, 0.0f, 1.0f, 1.0f,    1, 0, // Top right    - 2
-            UHD_RATIO*100,                 100,    0.0f,      1.0f, 1.0f, 0.0f, 1.0f,    0, 1  // Bottom left  - 3
+          UHD_RATIO*200f, 100f,   0.0f,      1.0f, 0.0f, 0.0f, 1.0f,    1, 1, // Bottom right - 0
+          UHD_RATIO*100f, 200f,   0.0f,      0.0f, 1.0f, 0.0f, 1.0f,    0, 0, // Top left     - 1
+          UHD_RATIO*200f, 200f,   0.0f,      0.0f, 0.0f, 1.0f, 1.0f,    1, 0, // Top right    - 2
+          UHD_RATIO*100f, 100f,   0.0f,      1.0f, 1.0f, 0.0f, 1.0f,    0, 1  // Bottom left  - 3
   };
 
   // IMPORTANT: Must be in counter-clockwise order
@@ -36,15 +39,24 @@ public class LevelEditorScene extends Scene {
   private Shader defaultShader;
   private Texture testTexture;
 
+  private GameObject testObject;
+  private boolean firstTime = false;
+
   public LevelEditorScene() {
   }
 
   @Override
   public void init() {
+    System.out.println("LevelEditorScene.init(): Creating 'test object'");
+    testObject = new GameObject("test object");
+    testObject.addComponent(new SpriteRenderer());
+    testObject.addComponent(new FontRenderer());
+    addGameObjectToScene(testObject);
+
     camera = new Camera(new Vector2f());
     defaultShader = new Shader("assets/shaders/default.glsl");
     defaultShader.compileShaders();
-    this.testTexture = new Texture("assets/images/testImage.jpg");
+    this.testTexture = new Texture("assets/images/testImage.png");
 
     // ===========================================================
     // Generate VAO, VBO, and EBO buffer objects, and send to GPU
@@ -120,5 +132,17 @@ public class LevelEditorScene extends Scene {
     glBindVertexArray(0);
 
     defaultShader.detachShaderProgram();
+
+    if(!firstTime) {
+      System.out.println("LevelEditorScene.update(): Creating gameObject!");
+      GameObject go = new GameObject("Game Test 2");
+      go.addComponent(new SpriteRenderer());
+      addGameObjectToScene(go);
+      firstTime = true;
+    }
+
+    for (GameObject go : gameObjects) {
+      go.update(dt);
+    }
   }
 }
