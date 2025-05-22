@@ -1,4 +1,6 @@
-package org.example.jade;
+package org.example.components;
+
+import org.example.jade.GameObject;
 
 /**
  * @author Sergei Aleshchenko

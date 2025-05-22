@@ -1,4 +1,6 @@
-package org.example.jade;
+package org.example.jade.scenes;
+
+import org.example.jade.Window;
 
 /**
  * @author Sergei Aleshchenko

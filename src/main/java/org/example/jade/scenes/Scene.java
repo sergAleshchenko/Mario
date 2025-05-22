@@ -1,4 +1,8 @@
-package org.example.jade;
+package org.example.jade.scenes;
+
+import org.example.jade.Camera;
+import org.example.jade.GameObject;
+import org.example.renderer.Renderer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +12,7 @@ import java.util.List;
  */
 public abstract class Scene {
 
+  protected Renderer renderer = new Renderer();
   protected Camera camera;
   private boolean isRunning = false;
   protected List<GameObject> gameObjects = new ArrayList<>();
@@ -19,6 +24,7 @@ public abstract class Scene {
   public void start() {
     for (GameObject go : gameObjects) {
       go.start();
+      renderer.add(go);
     }
     isRunning = true;
   }
@@ -29,9 +35,13 @@ public abstract class Scene {
     } else {
       gameObjects.add(go);
       go.start();
+      renderer.add(go);
     }
   }
 
   public abstract void update(float dt);
 
+  public Camera getCamera() {
+    return camera;
+  }
 }

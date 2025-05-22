@@ -1,7 +1,5 @@
 package org.example.components;
 
-import org.example.jade.Component;
-
 /**
  * @author Sergei Aleshchenko
  */

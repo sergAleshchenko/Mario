@@ -1,5 +1,10 @@
 package org.example.jade;
 
+import org.example.jade.controllers.KeyListener;
+import org.example.jade.controllers.MouseListener;
+import org.example.jade.scenes.LevelEditorScene;
+import org.example.jade.scenes.LevelScene;
+import org.example.jade.scenes.Scene;
 import org.example.util.Time;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
@@ -60,6 +65,10 @@ public class Window {
       Window.window = new Window();
     }
     return Window.window;
+  }
+
+  public static Scene getScene() {
+    return get().currentScene;
   }
 
   public void run() {
