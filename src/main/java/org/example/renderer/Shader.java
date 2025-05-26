@@ -88,7 +88,7 @@ public class Shader {
     }
   }
 
-  public void compileShaders() {
+  public void compileShader() {
     int vertexID, fragmentID;
     // First load and compile the vertex shader
     vertexID = glCreateShader(GL_VERTEX_SHADER);

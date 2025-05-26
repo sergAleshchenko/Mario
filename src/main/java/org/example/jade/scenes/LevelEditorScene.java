@@ -4,6 +4,7 @@ import org.example.components.SpriteRenderer;
 import org.example.jade.Camera;
 import org.example.jade.GameObject;
 import org.example.jade.Transform;
+import org.example.util.AssetPool;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 
@@ -41,12 +42,16 @@ public class LevelEditorScene extends Scene {
         addGameObjectToScene(go);
       }
     }
+
+    loadResources();
+  }
+
+  private void loadResources() {
+    AssetPool.getShader("assets/shaders/default.glsl");
   }
 
   @Override
   public void update(float dt) {
-    System.out.println("FPS: " + (1.0f/ dt));
-
     for (GameObject go : gameObjects) {
       go.update(dt);
     }
