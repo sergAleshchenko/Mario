@@ -5,16 +5,13 @@ import org.example.jade.controllers.MouseListener;
 import org.example.jade.scenes.LevelEditorScene;
 import org.example.jade.scenes.LevelScene;
 import org.example.jade.scenes.Scene;
-import org.example.util.Time;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11.glClear;
-import static org.lwjgl.opengl.GL11.glClearColor;
+import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 /**
@@ -102,6 +99,11 @@ public class Window {
     glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
     glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
 
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
     // Create the window
     glfwWindow = glfwCreateWindow(this.width, this.height, this.title, NULL, NULL);
 
@@ -127,7 +129,7 @@ public class Window {
   }
 
   private void loop() {
-    float beginTime = Time.getTime();
+    float beginTime = (float) glfwGetTime();
     float endTime;
     float dt =  -1.0f;
 
@@ -143,7 +145,7 @@ public class Window {
 
       glfwSwapBuffers(glfwWindow);
 
-      endTime = Time.getTime();
+      endTime = (float) glfwGetTime();
       dt = endTime - beginTime;
       beginTime = endTime;
     }

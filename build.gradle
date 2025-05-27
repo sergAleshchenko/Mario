@@ -6,18 +6,9 @@ group = 'org.example'
 version = '1.0-SNAPSHOT'
 sourceCompatibility = 1.11
 
-repositories {
-    mavenCentral()
-}
-
-test {
-    useJUnitPlatform()
-}
-
-
-project.ext.lwjglVersion = "3.2.3"
+project.ext.lwjglVersion = "3.3.6"
 project.ext.jomlVersion = "1.10.7"
-project.ext.lwjglNatives = "natives-windows"
+project.ext.lwjglNatives = "natives-macos-arm64"
 
 repositories {
     mavenCentral()
@@ -42,3 +33,10 @@ dependencies {
     runtimeOnly "org.lwjgl:lwjgl-stb::$lwjglNatives"
     implementation "org.joml:joml:${jomlVersion}"
 }
+
+
+
+
+
+
+

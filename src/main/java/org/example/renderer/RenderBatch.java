@@ -29,13 +29,19 @@ import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 public class RenderBatch {
   // Vertex
   // ======
-  // Pos              Color
-  // float, float     float, float, float, float
+  // Pos              Color                         tex coords      tex id
+  // float, float     float, float, float, float    float, float    float
   private final int POS_SIZE = 2;
   private final int COLOR_SIZE = 4;
   private final int POS_OFFSET = 0;
+  private final int TEX_COORDS_SIZE = 2;
+  private final int TEX_ID_SIZE =  1;
+
   private final int COLOR_OFFSET = POS_OFFSET + POS_SIZE * Float.BYTES;
-  private final int VERTEX_SIZE = 6;
+  private final int TEX_COORDS_OFFSET = COLOR_OFFSET + COLOR_SIZE * Float.BYTES;
+  private final int TEX_ID_OFFSET = TEX_COORDS_OFFSET + TEX_COORDS_SIZE * Float.BYTES;
+
+  private final int VERTEX_SIZE = 9;
   private final int VERTEX_SIZE_BYTES = VERTEX_SIZE * Float.BYTES;
 
   private SpriteRenderer[] sprites;
